@@ -1,0 +1,33 @@
+{
+  "name": "scooby",
+  "version": "1.0.0",
+  "description": "An Slack bot to snoop your team mates.",
+  "main": "server.js",
+  "dependencies": {
+    "botkit": "^0.6.16",
+    "dotenv": "^6.1.0",
+    "nodemon": "^1.18.4",
+    "regex": "^0.1.1",
+    "xregexp": "^4.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Rohit Sehgal <rohitsehgal1994@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r0hi7/Scooby.git"
+  },
+  "keywords": [
+    "Slack",
+    "bot",
+    "Online",
+    "check"
+  ],
+  "bugs": {
+    "url": "https://github.com/r0hi7/Scooby/issues"
+  },
+  "homepage": "https://github.com/r0hi7/Scooby#readme"
+}
