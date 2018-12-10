@@ -20,13 +20,12 @@ var configuration = {
 
 var controller = Botkit.slackbot(configuration);
 
-
 if (token) {
   console.log('Starting in single-team mode')
   controller.spawn({
       token: token
     })
-    .startRTM(function (err, bot, payload) {
+    .startRTM(function(err, bot, payload) {
       if (err) {
         console.log('Cloud not connect to Slack')
         throw new Error(err)
@@ -57,16 +56,22 @@ function checkStatus(bot, message, user, username, userMsg, presence) {
       }, 10000)
     else if (presence == 'active') {
       bot.replyWithTyping(message, user + ' is *online* now.')
-      if (userMsg)
-        bot.replyWithTyping(message,
-          'And this is what you asked me to remind *' + userMsg +
-          '*')
+      if (userMsg) {
+        const finalMessage = "Message from " + user + ". " + "_" + userMsg + "_"
+        bot.api.chat.postMessage({
+          text: finalMessage,
+          token: token,
+          channel: username.substring(1)
+        }, (error, reponse) => {
+          console.log(error)
+        })
+      }
     }
   });
 }
 
 controller.hears(['notify'], 'direct_message,direct_mention,mention',
-  function (
+  function(
     bot, message) {
     try {
       user = XRegExp.exec(message.text, parser)
@@ -74,7 +79,6 @@ controller.hears(['notify'], 'direct_message,direct_mention,mention',
       msg = XRegExp.exec(message.text, parser)
         .msg;
       username = user.substring(1, user.length - 1);
-
       bot.api.users.getPresence({
         user: username.substring(1)
       }, (err, response) => {
@@ -88,7 +92,7 @@ controller.hears(['notify'], 'direct_message,direct_mention,mention',
             " will be online.");
           if (msg)
             bot.replyWithTyping(message,
-              'And will delive you the same message to remind you about why you were looking for ' +
+              'And will deliver user the same message to tell him what you were looking for ' +
               user + ' to come online');
           checkStatus(bot, message, user, username, msg, 'away')
         }
@@ -105,7 +109,7 @@ controller.hears(['notify'], 'direct_message,direct_mention,mention',
   });
 
 
-controller.on('channel_join', function (bot, message) {
+controller.on('channel_join', function(bot, message) {
   bot.replyWithTyping(message,
     "Thanks for Inviting to the channel.. :smile:");
   bot.replyWithTyping(message,
